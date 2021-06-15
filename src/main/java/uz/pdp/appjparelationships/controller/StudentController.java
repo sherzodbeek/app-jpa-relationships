@@ -36,7 +36,7 @@ public class StudentController {
 
     //2. UNIVERSITY
     @GetMapping("/forUniversity/{universityId}")
-    public Page<Student> getStudentListForMinistry(@PathVariable Integer universityId,
+    public Page<Student> getGetStudentListForUniversity(@PathVariable Integer universityId,
                                                    @RequestParam int page) {
         //1-1=0
         // select * from student limit 10 offset 0  // page 0
@@ -53,6 +53,26 @@ public class StudentController {
     }
 
     //3. FACULTY DEKANAT
+    @GetMapping("/forFaculty/{facultyId}")
+    public Page<Student> getStudentListForFaculty(@PathVariable Integer facultyId, @RequestParam int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return studentRepository.findAllByGroup_FacultyId(facultyId, pageable);
+    }
+
     //4.GROUP OWNER
+    @GetMapping("/forGroup/{groupId}")
+    public Page<Student> getStudentListForGroup(@PathVariable Integer groupId, @RequestParam int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return studentRepository.findAllByGroupId(groupId, pageable);
+    }
+
+    @GetMapping("/oneStudent/{id}")
+    public Student getOneStudentById(@PathVariable Integer id) {
+        return studentRepository.findById(id).orElseThrow(() -> new IllegalStateException("Student not found!"));
+    }
+
+
+
+
 
 }
